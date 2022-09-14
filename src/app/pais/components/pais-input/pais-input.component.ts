@@ -11,28 +11,28 @@ export class PaisInputComponent implements OnInit {
   @Output() onDebounce: EventEmitter<string> = new EventEmitter();
   @Input() placeholder: string = '';
 
-
+  
   debouncer: Subject<string> = new Subject();
   
   termino:string = '';
-
+  
+  ngOnInit() {
+    this.debouncer.pipe(debounceTime(300))
+    // .subscribe(valor=> {console.log('debouncer:', valor);})
+    .subscribe(valor=> {this.onDebounce.emit(valor);})
+  }
+  
   buscar() {
-    console.log(this.termino);
+   // console.log(this.termino);
     this.onEnter.emit(this.termino);
   }
-
+  
   teclaPresionada() {
     this.debouncer.next(this.termino);
-
   }
 
   constructor() { }
 
-  ngOnInit() {
-    this.debouncer.pipe(debounceTime(300))
-    // .subscribe(valor=> {console.log('debouncer:', valor);})
-       .subscribe(valor=> {this.onDebounce.emit(valor);})
-  }
   
 
 }
